@@ -20,11 +20,14 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
+    @NotNull
     private String name;
     @Column(name = "second_name")
+    @NotNull
     private String secondName;
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "date_of_birth")
+    @NotNull
     private LocalDate dateOfBirth;
 }

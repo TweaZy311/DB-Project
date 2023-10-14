@@ -19,14 +19,17 @@ public class Employee {
 
     @ManyToOne
     @JoinColumn(name = "id_person")
+    @NotNull
     private Person person;
 
     @ManyToOne
     @JoinColumn(name = "id_department")
+    @NotNull
     private Department department;
 
     @ManyToOne
     @JoinColumn(name = "id_position")
+    @NotNull
     private Position position;
 
     @NotNull
