@@ -1,49 +1,55 @@
 <template>
     <div class="edit" v-if="show">
-        <div>{{personCount}}</div>
         <div class="input-group mb-3"
              v-for="personFromList in personList" v-bind:key="personFromList.id">
             <div class="input-group-prepend">
             </div>
+            <div> {{ personFromList.id }}</div>
             <input type="text" v-model="personFromList.name" class="form-control" aria-label="Default"
                    aria-describedby="inputGroup-sizing-default">
             <input type="text" v-model="personFromList.secondName" class="form-control" aria-label="Default"
                    aria-describedby="inputGroup-sizing-default">
             <input type="text" v-model="personFromList.lastName" class="form-control" aria-label="Default"
                    aria-describedby="inputGroup-sizing-default">
-            <input type="text" v-model="personFromList.dateOfBirth" class="form-control" aria-label="Default"
+            <input type="date" v-model="personFromList.dateOfBirth" class="form-control" aria-label="Default"
                    aria-describedby="inputGroup-sizing-default">
-            <button @click="getList">Изменить</button>
+            <button @click="edit(personFromList)">Изменить</button>
         </div>
     </div>
     <div class="create" v-else>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
             </div>
-            <input type="text" placeholder="имя"
-                   v-model="person.name" class="form-control" aria-label="Default"
-                   aria-describedby="inputGroup-sizing-default">
-            <input type="text" placeholder="фамилия"
-                   v-model="person.second_name" class="form-control" aria-label="Default"
-                   aria-describedby="inputGroup-sizing-default">
-            <input type="text" placeholder="отчество"
-                   v-model="person.last_name" class="form-control" aria-label="Default"
-                   aria-describedby="inputGroup-sizing-default">
-            <input type="date" placeholder="дата рождения"
-                   v-model="person.date_of_birth" class="form-control" aria-label="Default"
-                   aria-describedby="inputGroup-sizing-default">
+            <my-input type="text" placeholder="имя"
+                      :model-value="person.name"
+                      @update:model-value="setPerson"/>
+            <my-input type="text" placeholder="фамилия"
+                      :model-value="person.second_name"
+                      @update:model-value="setPerson"/>
+            <my-input type="text" placeholder="отчество"
+                      :model-value="person.last_name"
+                      @update:model-value="setPerson"/>
+            <my-input type="date" placeholder="дата рождения"
+                      :model-value="person.date_of_birth"
+                      @update:model-value="setPerson"/>
             <button type="submit" @click="submit">Добавить</button>
         </div>
     </div>
 </template>
 
 <script>
-import {mapGetters, mapActions, mapMutations} from "vuex";
+import {mapGetters, mapActions, mapMutations, mapState} from "vuex";
+import MyInput from "@/components/UI/MyInput.vue";
 
 export default {
     name: "PersonContent",
+    components: {MyInput},
     computed: {
         ...mapGetters(['personList', 'personCount']),
+        ...mapState({
+            personList: state => state.person.personList,
+            person: state => state.person.person
+        })
     },
     props: {
         show: {
@@ -51,27 +57,30 @@ export default {
             default: false,
         },
     },
-    data(){
-        return{
-            person: {
-                date_of_birth: '',
-                name: '',
-                second_name: '',
-                last_name: '',
-            },
-        }
-    },
     methods: {
-        ...mapActions(['fetchPerson', 'addPerson']),
-        ...mapMutations(['setPerson']),
-        submit(){
-            this.addPerson({dateOfBirth: this.person.date_of_birth,
-            name: this.person.name,
-            secondName: this.person.second_name,
-            lastName: this.person.last_name})
+        ...mapActions(['fetchPerson', 'addPerson', 'editPerson']),
+        ...mapMutations(['setPerson',
+            'setPersonName',
+            'setPersonSecondName',
+            'setPersonLastName',
+            'setPersonBirth']),
+        submit() {
+            this.addPerson({
+                dateOfBirth: this.person.date_of_birth,
+                name: this.person.name,
+                secondName: this.person.second_name,
+                lastName: this.person.last_name
+            })
         },
-
-
+        edit(personFromList) {
+            this.editPerson({
+                id: personFromList.id,
+                dateOfBirth: personFromList.dateOfBirth,
+                name: personFromList.name,
+                secondName: personFromList.secondName,
+                lastName: personFromList.lastName,
+            })
+        }
     },
     async mounted() {
         await this.fetchPerson();
