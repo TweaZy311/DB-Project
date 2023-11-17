@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 public class BoardingPassController extends BaseControllerImpl<BoardingPass, BoardingPassPK> {
+
     @Autowired
     public BoardingPassController(BoardingPassService service) {
         super(service);

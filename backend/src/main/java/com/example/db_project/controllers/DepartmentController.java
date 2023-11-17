@@ -47,9 +47,9 @@ public class DepartmentController extends BaseControllerImpl<Department, Long> {
 //        super.deleteById(id);
 //    }
 //
-//    @Override
-//    @GetMapping("/department")
-//    public List<Department> getAll() {
-//        return super.getAll();
-//    }
+   @Override
+   @GetMapping("/department")
+   public List<Department> getAll() {
+       return super.getAll();
+   }
 }

@@ -47,9 +47,9 @@ public class FlightController extends BaseControllerImpl<Flight, Long> {
 //        super.deleteById(id);
 //    }
 //
-//    @Override
-//    @GetMapping("/flight")
-//    public List<Flight> getAll() {
-//        return super.getAll();
-//    }
+   @Override
+   @GetMapping("/flight")
+   public List<Flight> getAll() {
+       return super.getAll();
+   }
 }

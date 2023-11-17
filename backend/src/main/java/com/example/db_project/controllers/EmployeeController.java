@@ -23,6 +23,7 @@ public class EmployeeController extends BaseControllerImpl<Employee, Long> {
     @Override
     @PostMapping("/employee")
     public void add(@RequestBody Employee employee) {
+        System.out.println(employee);
         super.add(employee);
     }
 
@@ -50,9 +51,9 @@ public class EmployeeController extends BaseControllerImpl<Employee, Long> {
 //        super.deleteById(id);
 //    }
 //
-//    @Override
-//    @GetMapping("/employee")
-//    public List<Employee> getAll() {
-//        return super.getAll();
-//    }
+   @Override
+   @GetMapping("/employee")
+   public List<Employee> getAll() {
+       return super.getAll();
+   }
 }
