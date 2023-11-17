@@ -1,13 +1,15 @@
 import axios from "axios";
 
-function formatDate(date) {
+function formatDate(time) {
+    const date = new Date(time);
+
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
-    const hour = date.getHours();
-    const minute = date.getMinutes();
-    // const second = date.getSeconds();
-    return `${year}-${month}-${day},${hour}-${minute}`;
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
 
 export default {
@@ -25,11 +27,7 @@ export default {
         setFlightList(state, flightList) {
             state.flightList = flightList.map(item => {
                     return {
-                        ...item, departureTime: formatDate(new Date(item.departureTime[0],
-                            item.departureTime[1] - 1,
-                            item.departureTime[2],
-                            item.departureTime[3],
-                            item.departureTime[4]))
+                        ...item, departureTime: formatDate(item.departureTime)
                     }
                 }
             )
@@ -68,6 +66,7 @@ export default {
             }).then(response => {
                 commit('setFlightList', response.data)
                 console.log(response.data)
+                console.log(formatDate(new Date(response.data[0].departureTime)))
             })
         },
         async addFlight({commit}, {departurePoint, departureTime, destination, employeeId}) {
