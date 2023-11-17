@@ -24,6 +24,6 @@ public class Passport {
     @NotNull
     private Integer number;
     @NotNull
-    private LocalDate validity_period;
+    private LocalDate validityPeriod;
 
 }
