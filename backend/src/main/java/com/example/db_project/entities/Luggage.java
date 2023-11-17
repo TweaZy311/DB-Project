@@ -19,7 +19,6 @@ public class Luggage {
 
     @ManyToOne
     @JoinColumn(name = "id_passenger")
-    @JsonIgnore
     private Passenger passenger;
 
     @NotNull

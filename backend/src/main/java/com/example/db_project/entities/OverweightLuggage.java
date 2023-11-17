@@ -19,7 +19,6 @@ public class OverweightLuggage {
 
     @ManyToOne
     @JoinColumn(name = "id_luggage")
-    @JsonIgnore
     private Luggage luggage;
 
     @NotNull
